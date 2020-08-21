@@ -15,11 +15,11 @@ axios.get(url)
 
         // WRITE JSON FILE WITH FILTERED HTML DATA
 
-        // const birdsJSON = JSON.stringify(res)
-        // fs.writeFile('birds.json', birdsJSON, function (err) {
-        //     if (err) return console.log(err);
-        //     console.log('done');
-        //   });
+        const housesJSON = JSON.stringify(res)
+        fs.writeFile('houses.json', housesJSON, function (err) {
+            if (err) return console.log(err);
+            console.log('done');
+          });
     })
     .catch(err => {
         console.log(err);
@@ -39,11 +39,6 @@ getHtmlData = (html) => {
     let prices = $(' .block-content > p', housesTableHTML)
     let images = $(' .block-image > img', housesTableHTML)
 
-    // console.log(bedrooms[0].children[2].data);
-    // console.log(addresses[3].children[0].data);
-    // console.log(prices[0].children[0].data); // evens 
-    // console.log(images[1].attribs.src); // evens 
-
     for (i = 0; i < 98; i ++) {
         let y = 0
         let house = {}
@@ -53,19 +48,19 @@ getHtmlData = (html) => {
         house.id = i
         house.address = addresses[i].children[0].data
         house.price = prices[y].children[0].data
-        house.bedrooms = bedrooms[i].children[2].data
-        house.img = images[i].attribs.src
+
+        const image = images[i].attribs.src
+        house.img = "http:" + image
+
+        const bedroom = bedrooms[i].children[2].data
+        house.berooms = bedroom.replace(/\s/g, "")
 
         houses.push(house)
         y += 2
     }
 
-    console.log(houses);
+    return houses
 
-    // let family = ($('.mw-headline', html)[i].attribs.id.replace(/_/g, " "))
-    // console.log(`length: ${(tables[i].children.length - 1) /2}`);
-    // bird.name = $('td > a', html)[j].attribs.title
-           
 }
 
 
