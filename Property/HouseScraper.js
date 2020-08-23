@@ -36,18 +36,17 @@ getHtmlData = (html) => {
     // Map required data
     let bedrooms = $(' .property-meta', housesTableHTML)
     let addresses = $(' div > strong', housesTableHTML)
-    let prices = $(' .block-content > p', housesTableHTML)
+    let prices = $(' .block-content > .h7', housesTableHTML)
     let images = $(' .block-image > img', housesTableHTML)
-
+    
     for (i = 0; i < 98; i ++) {
-        let y = 0
         let house = {}
 
-        // console.log(i);
-
         house.id = i
+        house.parent_category = "Property"
+        house.category = "House"
         house.address = addresses[i].children[0].data
-        house.price = prices[y].children[0].data
+        house.price = prices[i].children[0].data
 
         const image = images[i].attribs.src
         house.img = "http:" + image
@@ -56,7 +55,6 @@ getHtmlData = (html) => {
         house.berooms = bedroom.replace(/\s/g, "")
 
         houses.push(house)
-        y += 2
     }
 
     return houses
